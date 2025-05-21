@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coding Quiz & Platforms</title>
+  <style>
+    :root {
+      --bg: #f0f0f0;
+      --text: #222;
+      --card: rgba(255, 255, 255, 0.95);
+      --primary: #0077cc;
+      --header-bg: #005fa3;
+      --footer-bg: #003d66;
+    }
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #eee;
+      --card: rgba(30, 30, 30, 0.9);
+      --primary: #33aaff;
+      --header-bg: #1a73e8;
+      --footer-bg: #0a3a75;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    header {
+      background-color: var(--header-bg);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+    nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #a3d5ff;
+    }
+    .theme-toggle {
+      background: var(--card);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1rem;
+      margin-left: auto;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px 60px;
+      width: 100%;
+    }
+    .intro {
+      background: var(--card);
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+    .section {
+      background: var(--card);
+      margin-bottom: 40px;
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: background 0.4s;
+    }
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+    }
+    select, button {
+      padding: 12px 15px;
+      margin-top: 15px;
+      border: 1.5px solid var(--primary);
+      border-radius: 6px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 400px;
+      transition: background-color 0.3s, color 0.3s;
+      cursor: pointer;
+      user-select: none;
+    }
+    select:focus, button:focus {
+      outline: none;
+      box-shadow: 0 0 5px var(--primary);
+    }
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+    }
+    button:hover:not(:disabled) {
+      background-color: #005fa3;
+    }
+    button:disabled {
+      background-color: #aaa;
+      cursor: default;
+    }
+    .answers {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      max-width: 450px;
+    }
+    .answers button {
+      flex: 1 1 45%;
+      max-width: 200px;
+    }
+    .platform-link {
+      display: inline-block;
+      margin: 8px 8px 0 0;
+      padding: 10px 16px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    .platform-link:hover {
+      background-color: #005fa3;
+    }
+    #quizResult {
+      font-weight: 700;
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+    #score {
+      font-weight: 700;
+      color: var(--primary);
+    }
+    footer {
+      background-color: var(--footer-bg);
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .info-list {
+      margin-top: 12px;
+      padding-left: 18px;
+      line-height: 1.5;
+    }
+    .info-list li {
+      margin-bottom: 8px;
+    }
+    @media (max-width: 600px) {
+      header {
+        justify-content: center;
+        text-align: center;
+        padding: 15px 20px;
+      }
+      nav {
+        margin-top: 10px;
+        width: 100%;
+      }
+      nav a {
+        margin-left: 0;
+        margin-right: 15px;
+        display: inline-block;
+      }
+      main {
+        margin: 20px 10px 40px;
+        padding: 0 10px;
+      }
+      .answers button {
+        flex-basis: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+<header>
+  <h1>Coding Quiz & Platforms</h1>
+  <nav>
+    <a href="#intro">About</a>
+    <a href="#quizSection">Quiz</a>
+    <a href="#platformSection">Platforms</a>
+  </nav>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Dark/Light Theme">🌗</button>
+</header>
+
+<main>
+  <section id="intro" class="intro">
+    <h2>Welcome to the Coding Quiz Website!</h2>
+    <p>
+      Explore popular programming languages like JavaScript, Python, C++, and Java through interactive quizzes.
+      Improve your coding skills while learning interesting facts about each language.
+    </p>
+    <p>
+      Once you complete the quiz, discover recommended online platforms where you can practice coding challenges and enhance your knowledge.
+      Whether you are a beginner or an experienced programmer, these resources will help you grow.
+    </p>
+  </section>
+
+  <section class="section" id="aboutDetails">
+    <h2>About Programming Languages & Platforms</h2>
+    <div>
+      <h3>Programming Languages:</h3>
+      <ul class="info-list">
+        <li><strong>JavaScript:</strong> The most popular language for web development, allowing interactive and dynamic web pages.</li>
+        <li><strong>Python:</strong> A versatile and beginner-friendly language used for web development, data science, automation, and more.</li>
+        <li><strong>C++:</strong> A powerful, high-performance language commonly used for system/software development and game programming.</li>
+        <li><strong>Java:</strong> Widely used for building cross-platform applications, especially Android apps and enterprise solutions.</li>
+      </ul>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <h3>Popular Coding Platforms:</h3>
+      <ul class="info-list">
+        <li><strong>CodePen & JSFiddle:</strong> Great online editors to experiment and showcase front-end web projects (JavaScript focused).</li>
+        <li><strong>LeetCode & HackerRank:</strong> Platforms focused on coding challenges and interview preparation across many languages.</li>
+        <li><strong>Kaggle:</strong> A platform for data science competitions and learning Python with real-world datasets.</li>
+        <li><strong>Codeforces & AtCoder:</strong> Competitive programming sites with frequent contests, great for C++ enthusiasts.</li>
+        <li><strong>Coding Ninjas & CodeChef:</strong> Comprehensive coding tutorials, practice problems, and competitions in various languages.</li>
+        <li><strong>GeeksforGeeks:</strong> An extensive resource with tutorials, quizzes, and practice problems mainly for C++ and Java.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="languageSection">
+    <h2>1️⃣ Select Your Favorite Programming Language</h2>
+    <select id="languageSelect" onchange="onLanguageSelected()" aria-label="Select programming language">
+      <option value="">-- Choose a Language --</option>
+      <option value="javascript">JavaScript</option>
+      <option value="python">Python</option>
+      <option value="cpp">C++</option>
+      <option value="java">Java</option>
+    </select>
+  </section>
+
+  <section class="section" id="quizSection" style="display:none;">
+    <h2>2️⃣ Quiz Based on Your Favorite Language</h2>
+    <div id="questionCount" aria-live="polite"></div>
+    <p id="questionText"></p>
+    <div class="answers" id="answers"></div>
+    <p id="quizResult" role="alert"></p>
+    <p>Score: <span id="score">0</span></p>
+    <button id="nextBtn" style="display:none;" onclick="nextQuestion()">Next Question</button>
+  </section>
+
+  <section class="section" id="platformSection" style="display:none;">
+    <h2>3️⃣ Coding Platforms for <span id="platformLang"></span></h2>
+    <div id="platformLinks"></div>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 Coding Quiz Website — Created for learning & fun. Visit our 
+  <a href="https://github.com/" target="_blank" rel="noopener" style="color:#a3d5ff;">GitHub</a> for more projects.
+</footer>
+
+<script>
+  // Theme toggle
+  function toggleTheme() {
+    const body = document.body;
+    if (body.getAttribute('data-theme') === 'dark') {
+      body.setAttribute('data-theme', 'light');
+    } else {
+      body.setAttribute('data-theme', 'dark');
+    }
+  }
+
+  // Quiz questions database
+  const quizDB = {
+    javascript: [
+      { question: "Which company developed JavaScript?", options: ["Microsoft", "Netscape", "Google"], correct: 1 },
+      { question: "Which symbol is used for comments in JS?", options: ["//", "/*", "#"], correct: 0 },
+      { question: "Which of the following is a JavaScript framework?", options: ["Django", "React", "Laravel"], correct: 1 }
+    ],
+    python: [
+      { question: "Who developed Python?", options: ["Guido van Rossum", "Elon Musk", "Tim Berners-Lee"], correct: 0 },
+      { question: "Which keyword is used to define a function?", options: ["function", "def", "fun"], correct: 1 },
+      { question: "What is the output of: print(type(3))?", options: ["<class 'int'>", "<class 'str'>", "<class 'float'>"], correct: 0 }
+    ],
+    cpp: [
+      { question: "Who created C++?", options: ["Dennis Ritchie", "Bjarne Stroustrup", "James Gosling"], correct: 1 },
+      { question: "What is the extension of a C++ file?", options: [".py", ".cpp", ".java"], correct: 1 },
+      { question: "Which of the following is a valid C++ comment?", options: ["// comment", "# comment", "-- comment"], correct: 0 }
+    ],
+    java: [
+      { question: "Java was developed by?", options: ["Sun Microsystems", "Microsoft", "Apple"], correct: 0 },
+      { question: "Which method is the entry point of Java?", options: ["start()", "init()", "main()"], correct: 2 },
+      { question: "What is JVM?", options: ["Java Variable Method", "Java Virtual Machine", "Java Visual Mode"], correct: 1 }
+    ]
+  };
+
+  // Coding platform recommendations
+  const platforms = {
+    javascript: [
+      { name: "CodePen", url: "https://codepen.io" },
+      { name: "JSFiddle", url: "https://jsfiddle.net" },
+      { name: "LeetCode", url: "https://leetcode.com" }
+    ],
+    python: [
+      { name: "HackerRank", url: "https://www.hackerrank.com/domains/tutorials/10-days-of-python" },
+      { name: "Kaggle", url: "https://www.kaggle.com" },
+      { name: "LeetCode", url: "https://leetcode.com" }
+    ],
+    cpp: [
+      { name: "Codeforces", url: "https://codeforces.com" },
+      { name: "AtCoder", url: "https://atcoder.jp" },
+      { name: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/c-plus-plus/" }
+    ],
+    java: [
+      { name: "Coding Ninjas", url: "https://www.codingninjas.com" },
+      { name: "CodeChef", url: "https://www.codechef.com" },
+      { name: "LeetCode", url: "https://leetcode.com" }
+    ]
+  };
+
+  let selectedLang = "";
+  let current = 0;
+  let score = 0;
+  let answered = false;
+
+  // When a language is selected
+  function onLanguageSelected() {
+    selectedLang = document.getElementById("languageSelect").value;
+
+    if (!selectedLang) {
+      document.getElementById("quizSection").style.display = "none";
+      document.getElementById("platformSection").style.display = "none";
+      return;
+    }
+
+    score = 0;
+    current = 0;
+    answered = false;
+
+    document.getElementById("score").textContent = score;
+    document.getElementById("quizResult").textContent = "";
+    document.getElementById("nextBtn").style.display = "none";
+
+    document.getElementById("quizSection").style.display = "block";
+    document.getElementById("platformSection").style.display = "none";
+
+    loadQuestion();
+  }
+
+  // Load question and options
+  function loadQuestion() {
+    const quiz = quizDB[selectedLang];
+    const q = quiz[current];
+
+    document.getElementById("questionCount").textContent = `Question ${current + 1} of ${quiz.length}`;
+    document.getElementById("questionText").textContent = q.question;
+
+    const answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement("button");
+      btn.textContent = opt;
+      btn.onclick = () => selectAnswer(i);
+      btn.disabled = false;
+      answersDiv.appendChild(btn);
+    });
+
+    answered = false;
+    document.getElementById("quizResult").textContent = "";
+    document.getElementById("nextBtn").style.display = "none";
+  }
+
+  // Handle answer selection
+  function selectAnswer(selected) {
+    if (answered) return;
+
+    answered = true;
+    const quiz = quizDB[selectedLang];
+    const q = quiz[current];
+
+    const answersButtons = document.querySelectorAll("#answers button");
+
+    answersButtons.forEach((btn, i) => {
+      btn.disabled = true;
+      if (i === q.correct) {
+        btn.style.backgroundColor = "#28a745"; // green correct
+        btn.style.color = "white";
+      } else if (i === selected) {
+        btn.style.backgroundColor = "#dc3545"; // red incorrect
+        btn.style.color = "white";
+      }
+    });
+
+    if (selected === q.correct) {
+      score++;
+      document.getElementById("quizResult").textContent = "Correct!";
+    } else {
+      document.getElementById("quizResult").textContent = `Wrong! Correct answer: ${q.options[q.correct]}`;
+    }
+
+    document.getElementById("score").textContent = score;
+    document.getElementById("nextBtn").style.display = "inline-block";
+  }
+
+  // Next question or end quiz
+  function nextQuestion() {
+    current++;
+    const quiz = quizDB[selectedLang];
+
+    if (current >= quiz.length) {
+      // Quiz finished
+      showPlatforms();
+      document.getElementById("quizSection").style.display = "none";
+      return;
+    }
+    loadQuestion();
+  }
+
+  // Show platforms recommended for language
+  function showPlatforms() {
+    document.getElementById("platformSection").style.display = "block";
+    document.getElementById("platformLang").textContent = capitalize(selectedLang);
+
+    const platformDiv = document.getElementById("platformLinks");
+    platformDiv.innerHTML = "";
+
+    platforms[selectedLang].forEach(site => {
+      const a = document.createElement("a");
+      a.href = site.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = site.name;
+      a.className = "platform-link";
+      platformDiv.appendChild(a);
+    });
+
+    const resultText = `You scored ${score} out of ${quizDB[selectedLang].length}. Keep practicing!`;
+    const res = document.getElementById("quizResult");
+    res.textContent = resultText;
+    res.style.fontWeight = "700";
+  }
+
+  // Utility to capitalize language name for display
+  function capitalize(str) {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+</script>
+
+</body>
+</html>
